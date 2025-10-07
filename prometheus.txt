@@ -1,0 +1,3 @@
+sc.exe config "windows_exporter" binPath= "\"C:\Program Files\windows_exporter\windows_exporter.exe\" --collectors.enabled cpu,cs,logical_disk,net,mem,system"
+sc.exe stop windows_exporter
+sc.exe start windows_exporter
