@@ -1,27 +1,20 @@
 #!/bin/bash
 
-# Simple Nessus installer for Kali Linux / Debian-based systems
+set -e
 
-echo "[*] Updating system..."
-sudo apt update -y
+echo "[+] Downloading Nessus 10.11.0..."
+curl --request GET \
+  --url 'https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.11.0-debian10_amd64.deb' \
+  --output 'Nessus-10.11.0-debian10_amd64.deb'
 
-echo "[*] Downloading the latest Nessus .deb package..."
-# You can change the URL if needed; this points to the official Tenable downloads.
-wget -O nessus.deb https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/17838/download?i_agree_to_tenable_license_agreement=true
+echo "[+] Installing package..."
+sudo dpkg -i Nessus-10.11.0-debian10_amd64.deb || sudo apt --fix-broken install -y
 
-echo "[*] Installing Nessus..."
-sudo dpkg -i nessus.deb
-
-echo "[*] Fixing missing dependencies..."
-sudo apt --fix-broken install -y
-
-echo "[*] Enabling and starting Nessus service..."
+echo "[+] Enabling Nessus service..."
 sudo systemctl enable nessusd
+
+echo "[+] Starting Nessus service..."
 sudo systemctl start nessusd
 
-echo
-echo "==========================================="
-echo " Nessus installation complete!"
-echo " Access the web interface at:"
-echo " 👉 https://<your-ip>:8834/"
-echo "==========================================="
+echo "[+] Nessus installation complete!"
+echo "[+] Access the web interface at: https://<your-ip>:8834/"
