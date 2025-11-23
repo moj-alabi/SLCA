@@ -1,20 +1,21 @@
 #!/bin/bash
 
-set -e
+# Update package list
+sudo apt update
 
-echo "[+] Downloading Nessus 10.11.0..."
+# Download Nessus package
 curl --request GET \
-  --url 'https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.11.0-debian10_amd64.deb' \
-  --output 'Nessus-10.11.0-debian10_amd64.deb'
+  --url 'https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.11.0-ubuntu1604_amd64.deb' \
+  --output 'Nessus-10.11.0-ubuntu1604_amd64.deb'
 
-echo "[+] Installing package..."
-sudo dpkg -i Nessus-10.11.0-debian10_amd64.deb || sudo apt --fix-broken install -y
+# Install Nessus
+sudo dpkg -i Nessus-10.11.0-ubuntu1604_amd64.deb
 
-echo "[+] Enabling Nessus service..."
-sudo systemctl enable nessusd
+# Enable Nessus service at startup
+sudo systemctl enable nessusd.service
 
-echo "[+] Starting Nessus service..."
-sudo systemctl start nessusd
+# Start Nessus service
+sudo systemctl start nessusd.service
 
-echo "[+] Nessus installation complete!"
-echo "[+] Access the web interface at: https://<your-ip>:8834/"
+echo "Nessus installation complete!"
+echo "Access the web UI at: https://<your-ip>:8834"
